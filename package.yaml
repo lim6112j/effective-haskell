@@ -48,7 +48,6 @@ executables:
     - effective-haskell
     - directory
     - containers
-
 tests:
   effective-haskell-test:
     main:                Spec.hs
