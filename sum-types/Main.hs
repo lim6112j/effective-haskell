@@ -9,6 +9,12 @@ confirmContact contact =
 data StringOrNumber = S String | N Int deriving (Show)
 stringAndNumber :: [StringOrNumber]
 stringAndNumber = [S "one", N 2, S "three", N 4]
+
+data Person = Customer
+  {name :: String, balance :: Int}
+  | Employee {name :: String, managerName :: String, salary :: Int}
+
 main :: IO()
 main = do
   print $ show stringAndNumber
+  print $ confirmContact (Email "hello")
