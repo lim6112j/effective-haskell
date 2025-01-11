@@ -27,14 +27,17 @@ count (CustomerInfo _ _ count _) = count
 balance :: CustomerInfo -> Int
 balance (CustomerInfo _ _ _ balance) = balance
 
-data UpgradedCustomerInfo = UpgradedCustomerInfo
+data CustomerInfo' = CustomerInfoCon
   { firstName' :: String,
     lastName' :: String,
     count' :: Int,
     balance' :: Int
   }
-
+  deriving Show
+customerJane :: CustomerInfo'
+customerJane = CustomerInfoCon {firstName' = "Jane", lastName' = "Ave", count' = 10, balance' = 100 }
 main :: IO()
 main = do
   print $ showCustomer customerGeorge
   print $ applyDiscount customerGeorge
+  print customerJane
