@@ -1,4 +1,4 @@
-module Main (main) where
+module Main(main) where
 data CustomerInfo = CustomerInfo String String Int Int deriving Show
 customerGeorge :: CustomerInfo
 customerGeorge = CustomerInfo "George" "Bird" 10 100

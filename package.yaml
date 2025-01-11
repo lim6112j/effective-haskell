@@ -48,6 +48,27 @@ executables:
     - effective-haskell
     - directory
     - containers
+  custom-type:
+    main:                Main.hs
+    source-dirs:         custom-type
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+  record-wild-cards:
+    main:                Main.hs
+    source-dirs:         record-wild-cards
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+  sum-types:
+    main:                Main.hs
+    source-dirs:         sum-types
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
 tests:
   effective-haskell-test:
     main:                Spec.hs
