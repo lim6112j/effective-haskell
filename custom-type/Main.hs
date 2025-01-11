@@ -36,8 +36,18 @@ data CustomerInfo' = CustomerInfoCon
   deriving Show
 customerJane :: CustomerInfo'
 customerJane = CustomerInfoCon {firstName' = "Jane", lastName' = "Ave", count' = 10, balance' = 100 }
+customerFactory :: String -> String -> CustomerInfo'
+customerFactory fname lname =
+  CustomerInfoCon {firstName' = fname,
+                  lastName' = lname,
+                  balance' = 0,
+                  count' = 0}
+totalCount :: [CustomerInfo'] -> Int
+totalCount = sum . map count'
 main :: IO()
 main = do
   print $ showCustomer customerGeorge
   print $ applyDiscount customerGeorge
   print customerJane
+  print $ firstName' (customerFactory "Tom" "Boy")
+  print $ totalCount [customerFactory "Tom" "Boy"]
