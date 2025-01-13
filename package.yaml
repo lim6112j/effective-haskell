@@ -33,7 +33,7 @@ ghc-options:
 - -Wpartial-fields
 - -Wredundant-constraints
 - -Wno-name-shadowing
-
+- -Wno-unused-top-binds
 library:
   source-dirs: src
 
