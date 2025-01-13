@@ -20,7 +20,7 @@ addPeano Z b = b
 addPeano (S a) b = addPeano a (S b)
 subPeano :: Peano -> Peano -> Peano
 subPeano a Z = a
-subPeano Z b = Z
+subPeano Z _ = Z
 subPeano (S a) (S b) = subPeano a (b)
 
 aPeano :: Peano
@@ -76,7 +76,8 @@ listReverse l =
   case fromList l of
     [] -> Empty
     (x:xs) -> toList $ fromList (listReverse $ toList xs) ++ [x]
-
+listReverse' :: List a -> List a
+listReverse' = listFoldl (flip Cons) Empty
 listMap :: (a -> b) -> List a -> List b
 listMap _ Empty = Empty
 listMap f (Cons x xs) =
@@ -97,3 +98,4 @@ main = do
   print $ fromListl aList
   print $ listReverse aList
   print $ listMap (* 2) aList
+  print $ listReverse' aList
