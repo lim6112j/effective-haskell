@@ -31,6 +31,22 @@ cPeano :: Peano
 cPeano = toPeano 6
 aSub :: Peano
 aSub = subPeano cPeano bPeano
+
+-- inductively defined list
+data List a = Empty | Cons a (List a) deriving (Show)
+toList :: [a] -> List a
+toList [] = Empty
+toList (x:xs) = Cons x (toList xs)
+
+toList' :: [a] -> List a
+toList' = foldr Cons Empty
+fromList :: List a -> [a]
+fromList Empty = []
+fromList (Cons x xs) = x : fromList xs
+
+aList :: List Int
+aList = toList [1, 2, 3, 4, 5]
+
 main :: IO ()
 main = do
   putStrLn "Hello, Haskell!"
@@ -40,3 +56,4 @@ main = do
   print $ subPeano aPeano cPeano
   print $ subPeano cPeano bPeano
   print $ addPeano aPeano bPeano
+  print $ fromList aList
