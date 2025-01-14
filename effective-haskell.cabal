@@ -63,6 +63,19 @@ executable chapter3
       base >=4.7 && <5
   default-language: Haskell2010
 
+executable chapter6
+  main-is: Main.hs
+  other-modules:
+      Paths_effective_haskell
+  autogen-modules:
+      Paths_effective_haskell
+  hs-source-dirs:
+      chapter6
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -Wno-name-shadowing -Wno-unused-top-binds -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+  default-language: Haskell2010
+
 executable custom-type
   main-is: Main.hs
   other-modules:

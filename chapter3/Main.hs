@@ -8,7 +8,7 @@ pointfree = (*) . foldr (+) 0
 sumBiggest :: [[Int]] -> String
 sumBiggest = undefined
 showBiggest = let biggestInfo = sumBiggest [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
-              in print $ "The biggest sum is: " <> biggestInfo
+              in print $"The biggest sum is: " <> biggestInfo
 main :: IO ()
 main = do
   print "Hello, World!"
