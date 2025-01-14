@@ -84,6 +84,20 @@ executables:
     - -threaded
     - -rtsopts
     - -with-rtsopts=-N
+  function:
+    main: Main.hs
+    source-dirs: function-as-values
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+  exercise4:
+    main: Main.hs
+    source-dirs: chapter4-exercise
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
 tests:
   effective-haskell-test:
     main:                Spec.hs

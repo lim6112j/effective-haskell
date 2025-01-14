@@ -79,6 +79,32 @@ executable effective-haskell-exe
     , effective-haskell
   default-language: Haskell2010
 
+executable exercise4
+  main-is: Main.hs
+  other-modules:
+      Paths_effective_haskell
+  autogen-modules:
+      Paths_effective_haskell
+  hs-source-dirs:
+      chapter4-exercise
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -Wno-name-shadowing -Wno-unused-top-binds -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+  default-language: Haskell2010
+
+executable function
+  main-is: Main.hs
+  other-modules:
+      Paths_effective_haskell
+  autogen-modules:
+      Paths_effective_haskell
+  hs-source-dirs:
+      function-as-values
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -Wno-name-shadowing -Wno-unused-top-binds -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+  default-language: Haskell2010
+
 executable peano
   main-is: Main.hs
   other-modules:
