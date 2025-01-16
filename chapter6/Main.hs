@@ -6,6 +6,7 @@
 module Main(main) where
 import Data.Kind
 import qualified Data.List.NonEmpty as NonEmpty
+import Control.Applicative ((<|>))
 unique :: (a -> a -> Bool) -> [a] -> [a]
 unique _ [] = []
 unique f (x:xs) = x : unique f (filter (\y -> not (f x y)) xs)
@@ -113,6 +114,20 @@ data Customer' = Customer'
   , email' :: String
   } deriving (Eq, Show, Ord)
 -- deriving more things
+selectContact :: Maybe String -> Maybe String -> Maybe String -> Maybe String
+selectContact email sms phone =
+  case email of
+    Just email' -> Just email'
+    Nothing ->
+      phone <|> sms
+newtype MyMaybe a = MyMaybe (Maybe a) deriving (Show)
+instance Semigroup (MyMaybe a) where
+--  MyMaybe Nothing <> b = b
+--  a <> _ = a
+  (MyMaybe a) <> (MyMaybe b) = MyMaybe (pick a b)
+instance Monoid (MyMaybe a) where
+--  mempty = MyMaybe Nothing
+  mempty = MyMaybe empty
 
 main :: IO ()
 main = do
