@@ -40,11 +40,22 @@ newtype MyEither a b = MyEither (Either a b)
 newtype MyEither' a b = MyEither' {getEither :: Either a b}
   deriving (Show)
 -- using type classes with newtypes
-
-
+newtype Product = Product {getProduct :: Int} deriving (Show)
+instance Semigroup Product where
+        Product a <> Product b = Product (a * b)
+instance Monoid Product where
+        mempty = Product 1
+newtype Sum = Sum {getSum :: Int}
+instance Semigroup Sum where
+  Sum a <> Sum b = Sum (a + b)
+instance Monoid Sum where
+  mempty = Sum 0
+  
 main :: IO ()
 main = do
   print "Hello, World!"
   print $ unique (==) [1, 2, 3, 4, 5, 5, 4, 3, 2, 1]
   print $ UserName "John"
   print $ redacted $ Password "1234"
+  print $ getProduct $ Product 2 <> Product 3
+  print$ getSum $ Sum 2 <> Sum 3
