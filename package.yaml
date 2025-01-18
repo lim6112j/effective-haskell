@@ -34,6 +34,7 @@ ghc-options:
 - -Wredundant-constraints
 - -Wno-name-shadowing
 - -Wno-unused-top-binds
+- -Wno-type-defaults
 library:
   source-dirs: src
 
