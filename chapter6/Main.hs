@@ -2,11 +2,12 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE KindSignatures #-}
-
+{-# LANGUAGE DerivingVia #-}
 module Main(main) where
 import Data.Kind
 import qualified Data.List.NonEmpty as NonEmpty
 import Control.Applicative ((<|>))
+import qualified Data.Semigroup as Semi
 unique :: (a -> a -> Bool) -> [a] -> [a]
 unique _ [] = []
 unique f (x:xs) = x : unique f (filter (\y -> not (f x y)) xs)
@@ -128,6 +129,20 @@ instance Semigroup (MyMaybe a) where
 instance Monoid (MyMaybe a) where
 --  mempty = MyMaybe Nothing
   mempty = MyMaybe empty
+-- deriving via
+newtype Sel (f :: Type -> Type) (a :: Type) = Sel (f a)
+instance (Select f) => Semigroup (Sel f a) where
+  (Sel a) <> (Sel b) = Sel (pick a b)
+instance (Select f) => Monoid (Sel f a) where
+  mempty = Sel empty
+-- (MyMaybe' a) and (Sel Maybe a) are representationally equal.
+newtype MyMaybe' a = MyMaybe' (Maybe a) deriving Show
+     deriving (Semigroup, Monoid) via (Sel Maybe a)
+-- borrow from semigroup instance for integral type.
+newtype MySum = MySum {getMySum::Int}
+  deriving (Eq, Show) deriving (Semigroup, Monoid) via (Semi.Sum Int)
+newtype MyProduct = MyProduct {getMyProduct :: Int}
+  deriving (Eq, Show) deriving (Semigroup, Monoid) via (Semi.Product Int)
 
 main :: IO ()
 main = do
