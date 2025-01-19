@@ -3,6 +3,7 @@
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE KindSignatures #-}
 {-# LANGUAGE DerivingVia #-}
+{-# LANGUAGE DeriveAnyClass #-}
 module Main(main) where
 import Data.Kind
 import qualified Data.List.NonEmpty as NonEmpty
@@ -143,7 +144,9 @@ newtype MySum = MySum {getMySum::Int}
   deriving (Eq, Show) deriving (Semigroup, Monoid) via (Semi.Sum Int)
 newtype MyProduct = MyProduct {getMyProduct :: Int}
   deriving (Eq, Show) deriving (Semigroup, Monoid) via (Semi.Product Int)
-
+-- Anyclass deriving
+newtype UserName' = UserName' String deriving (Show, Redacted)
+newtype Password' = Password' String deriving (Redacted)
 main :: IO ()
 main = do
   print "Hello, World!"
