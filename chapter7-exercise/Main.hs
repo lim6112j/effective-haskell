@@ -23,6 +23,32 @@ sequenceIO' (x:xs) = do
 sequenceIO_ :: [IO a] -> IO ()
 sequenceIO_ [] = return ()
 sequenceIO_ actions = sequenceIO actions >> return ()
+-- commandline calculator
+calculator :: IO ()
+calculator = do
+  putStrLn "Enter a number:"
+  nums <- words <$> getLine
+  putStrLn "Enter an operator:"
+  operator <- getLine
+  let result = case operator of
+        "+" -> foldl1 (+) (map read nums)
+        "-" -> foldl1 (-) (map read nums)
+        "*" -> foldl1 (*) (map read nums)
+        "/" -> foldl1 div (map read nums)
+        _ -> error "Invalid operator"
+  putStrLn $ "The result is: " ++ show result
+-- word replacement utility
+type Filepath = String
+type Needle = String
+type Replacement = String
+replaceword :: Filepath -> Needle -> Replacement -> IO ()
+replaceword file needle replacement = do
+  content <- readFile file
+  print content
+  let newContent = unwords $ map (\word -> if word == needle then replacement else word) $ words content
+  writeFile file newContent
+  content' <- readFile file
+  print content'
 main :: IO ()
 main =
   getIOString "Hello world"
@@ -31,3 +57,5 @@ main =
   >>= print
   >> print "sequenceIO_ runing \n"
   >> sequenceIO_ (map print [1..10])
+  >> calculator
+  >> replaceword "./test.txt" "world!" "world!!!!!!!!!!!"
