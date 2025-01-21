@@ -50,19 +50,6 @@ executable calculator
       base >=4.7 && <5
   default-language: Haskell2010
 
-executable chapter10
-  main-is: Main.hs
-  other-modules:
-      Paths_effective_haskell
-  autogen-modules:
-      Paths_effective_haskell
-  hs-source-dirs:
-      chapter10
-  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -Wno-name-shadowing -Wno-unused-top-binds -Wno-type-defaults -threaded -rtsopts -with-rtsopts=-N
-  build-depends:
-      base >=4.7 && <5
-  default-language: Haskell2010
-
 executable chapter3
   main-is: Main.hs
   other-modules:
@@ -84,6 +71,19 @@ executable chapter6
       Paths_effective_haskell
   hs-source-dirs:
       chapter6
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -Wno-name-shadowing -Wno-unused-top-binds -Wno-type-defaults -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+  default-language: Haskell2010
+
+executable chapter7
+  main-is: Main.hs
+  other-modules:
+      Paths_effective_haskell
+  autogen-modules:
+      Paths_effective_haskell
+  hs-source-dirs:
+      chapter7
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -Wno-name-shadowing -Wno-unused-top-binds -Wno-type-defaults -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
@@ -152,6 +152,19 @@ executable exercise6
       Paths_effective_haskell
   hs-source-dirs:
       chapter6-exercise
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -Wno-name-shadowing -Wno-unused-top-binds -Wno-type-defaults -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+  default-language: Haskell2010
+
+executable exercise7
+  main-is: Main.hs
+  other-modules:
+      Paths_effective_haskell
+  autogen-modules:
+      Paths_effective_haskell
+  hs-source-dirs:
+      chapter7-exercise
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -Wno-name-shadowing -Wno-unused-top-binds -Wno-type-defaults -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
