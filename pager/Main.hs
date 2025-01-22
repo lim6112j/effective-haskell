@@ -1,4 +1,4 @@
 module Main(main) where
-import HCAT(runHCat)
+import Hcat(runHCat)
 main::IO()
 main = runHCat

@@ -186,6 +186,7 @@ executable function
 executable pager
   main-is: Main.hs
   other-modules:
+      Hcat
       Paths_effective_haskell
   autogen-modules:
       Paths_effective_haskell
