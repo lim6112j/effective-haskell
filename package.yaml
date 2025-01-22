@@ -141,6 +141,13 @@ executables:
     - -threaded
     - -rtsopts
     - -with-rtsopts=-N
+  pager:
+    main: Main.hs
+    source-dirs: pager
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
 tests:
   effective-haskell-test:
     main:                Spec.hs
