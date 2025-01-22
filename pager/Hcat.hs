@@ -4,6 +4,7 @@ import qualified System.Environment as Env
 import Prelude hiding (FilePath)
 import qualified Control.Exception as Exception
 import qualified System.IO.Error as IOError
+import qualified Data.Text.IO as TextIO
 getArgs :: IO [String]
 getArgs = Env.getArgs
 type FilePath = String
@@ -46,6 +47,19 @@ runHCat'' =
      >>= eitherToErr
      >>= readFile
      >>= putStrLn
+  where
+    handleIOError :: IO () -> IO ()
+    handleIOError io = Exception.catch io handleErr
+    handleErr :: IOError -> IO ()
+    handleErr e = putStrLn $ "Error: " <> show e
+-- using Efficient Strings
+runHCat''' :: IO ()
+runHCat''' =
+  handleIOError $
+     handleArgs
+     >>= eitherToErr
+     >>= TextIO.readFile
+     >>= TextIO.putStrLn
   where
     handleIOError :: IO () -> IO ()
     handleIOError io = Exception.catch io handleErr

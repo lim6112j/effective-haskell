@@ -148,6 +148,8 @@ executables:
     - -threaded
     - -rtsopts
     - -with-rtsopts=-N
+    dependencies:
+    - text
 tests:
   effective-haskell-test:
     main:                Spec.hs
