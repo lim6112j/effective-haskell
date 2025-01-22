@@ -1,5 +1,5 @@
 {-# LANGUAGE LambdaCase #-}
-module Hcat(runHCat) where
+module Hcat(runHCat, runHCat') where
 import qualified System.Environment as Env
 import Prelude hiding (FilePath)
 import qualified Control.Exception as Exception
@@ -22,4 +22,15 @@ runHCat = Exception.catch
   ) handleErr
   where
     handleErr :: Exception.IOException -> IO ()
+    handleErr e = putStrLn $ "Error: " <> show e
+runHCat' :: IO ()
+runHCat' =
+  withErrorHandling $
+   handleArgs >>= \case
+    Left err -> putStrLn $ "Error Processing: " <> err
+    Right file -> readFile file >>= putStrLn
+  where
+    withErrorHandling :: IO () -> IO ()
+    withErrorHandling io = Exception.catch io handleErr
+    handleErr :: IOError -> IO ()
     handleErr e = putStrLn $ "Error: " <> show e
