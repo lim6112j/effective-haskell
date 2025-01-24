@@ -1,7 +1,7 @@
 {-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module Hcat(runHCat, runHCat', runHCat'', groupsOf, wordWrap) where
+module Hcat(runHCat, runHCat', runHCat'', groupsOf, wordWrap, wordWrap') where
 import qualified System.Environment as Env
 import Prelude hiding (FilePath)
 import qualified Control.Exception as Exception
@@ -79,3 +79,18 @@ wordWrap n  txt
   | otherwise =
         let (line, rest) = Text.splitAt n txt
         in line : wordWrap n rest
+wordWrap' :: Int -> Text.Text -> [Text.Text]
+wordWrap' n txt
+  | Text.length txt <= n = [txt]
+  | otherwise =
+        let (line, rest) = Text.splitAt n txt
+            (modified, overflow) = softwrap line (Text.length line - 1)
+        in modified : wordWrap n (overflow <> rest)
+        where
+                softwrap :: Text.Text -> Int -> (Text.Text, Text.Text)
+                softwrap line idx
+                  | idx <= 0 = (line, "")
+                  | Text.index line idx == ' ' =
+                      let (wrappedline, rest') = Text.splitAt idx line
+                      in (wrappedline, Text.tail rest')
+                  | otherwise = softwrap line (idx - 1)
