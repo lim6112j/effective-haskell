@@ -1,8 +1,10 @@
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE OverloadedStrings #-}
+{-# OPTIONS_GHC -Wno-missing-signatures #-}
 
 module Main(main) where
 import Text.Read (readMaybe)
+import Data.Char
 import Data.String
 newtype Function a b = Function { runFunction :: a -> b }
 instance Functor (Function a) where
@@ -60,7 +62,15 @@ bound (min, max) n =
   if (n >= min) && (n <= max)
   then Just n
   else Nothing
--- Every function returns a Just value
+-- functor laws
+data Outlaw a = Outlaw Int a deriving (Eq, Show)
+instance Functor Outlaw where
+  fmap f (Outlaw n a) = Outlaw (n + 1) (f a)
+bang :: String -> String
+bang = (<> "!")
+upcase = map toUpper
+billyTheKid = Outlaw 0 "bank robber"
+
 
 main :: IO ()
 main = do
@@ -78,3 +88,7 @@ main = do
   print u
   let uu = unwordsL $ pure "hello haskell" >>= wordsL >>= const Empty
   print uu
+  let testIdentityLaw = fmap id billyTheKid == id billyTheKid
+  print testIdentityLaw
+  let testCompositionLaw = fmap (bang . upcase) billyTheKid == (fmap bang . fmap upcase) billyTheKid
+  print testCompositionLaw
