@@ -150,7 +150,7 @@ executables:
     - -with-rtsopts=-N
     dependencies:
     - text
-  exercise9:
+  chapter9:
     main: Main.hs
     source-dirs: chapter9
     ghc-options:
