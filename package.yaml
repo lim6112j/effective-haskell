@@ -168,6 +168,13 @@ executables:
     - directory
     - containers
     - bytestring
+  metrics:
+    main: Main.hs
+    source-dirs: metrics
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
 tests:
   effective-haskell-test:
     main:                Spec.hs

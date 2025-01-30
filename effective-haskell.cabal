@@ -212,6 +212,19 @@ executable function
       base >=4.7 && <5
   default-language: Haskell2010
 
+executable metrics
+  main-is: Main.hs
+  other-modules:
+      Paths_effective_haskell
+  autogen-modules:
+      Paths_effective_haskell
+  hs-source-dirs:
+      metrics
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -Wno-name-shadowing -Wno-unused-top-binds -Wno-type-defaults -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+  default-language: Haskell2010
+
 executable pager
   main-is: Main.hs
   other-modules:
