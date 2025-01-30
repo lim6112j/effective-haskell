@@ -167,6 +167,7 @@ executables:
     dependencies:
     - directory
     - containers
+    - bytestring
 tests:
   effective-haskell-test:
     main:                Spec.hs

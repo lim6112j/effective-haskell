@@ -14,7 +14,8 @@ import System.Directory
   )
 import qualified Data.Set as Set (empty, insert, member)
 import Text.Printf (printf)
-
+import Data.ByteString (ByteString)
+import qualified Data.ByteString as BS
 readWriteRef :: IO Int
 readWriteRef = do
   myRef <- newIORef @Int 0
@@ -81,6 +82,9 @@ traverseDirectory rootPath action = do
               traverseSubDirectory file
   traverseSubDirectory (dropSuffix "/" rootPath)
   readIORef resultRef
-  
+countBytes :: FilePath -> IO (FilePath, Integer)
+countBytes path = do
+  bytes <- fromIntegral . BS.length <$> BS.readFile path
+  pure (path, bytes)
 main :: IO ()
 main = readWriteRef >>= print
