@@ -56,14 +56,31 @@ naiveTraversal rootPath action = do
     getPaths = mapM (\path -> naiveTraversal path action)
 traverseDirectory :: FilePath -> (FilePath -> a) -> IO [a]
 traverseDirectory rootPath action = do
-  visited <- newIORef @Set empty
-  let visit path = do
-        alreadyVisited <- Set.member path <$> readIORef visited
-        if alreadyVisited
-          then pure []
-          else do
-            writeIORef visited $ Set.insert path visited
-            naiveTraversal path action
-  visit rootPath
+  seenRef <- newIORef Set.empty
+  resultRef <- newIORef []
+  let
+    haveSeenDirectory canonicalPath =
+      Set.member canonicalPath <$> readIORef seenRef
+    addDirectoryToSeen canonicalPath =
+      modifyIORef seenRef $ Set.insert canonicalPath
+    traverseSubDirectory subdirPath = do
+      contents <- listDirectory subdirPath
+      for_ contents $ \file' ->
+        handle @IOException (\_ -> pure ()) $ do
+        let file = subdirPath <> "/" <> file'
+        canonicalPath <- canonicalizePath file
+        classification <- classifyFile canonicalPath
+        case classification of
+          FileTypeOther -> pure ()
+          FileTypeRegularFile ->
+            modifyIORef resultRef (\results -> action file : results)
+          FileTypeDirectory -> do
+            alreadyProcessed <- haveSeenDirectory file
+            when (not alreadyProcessed) $ do
+              addDirectoryToSeen file
+              traverseSubDirectory file
+  traverseSubDirectory (dropSuffix "/" rootPath)
+  readIORef resultRef
+  
 main :: IO ()
 main = readWriteRef >>= print

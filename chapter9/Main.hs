@@ -1,6 +1,7 @@
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# OPTIONS_GHC -Wno-missing-signatures #-}
+{-# OPTIONS_GHC -Wno-noncanonical-monad-instances #-}
 
 module Main(main) where
 import Text.Read (readMaybe)
@@ -70,7 +71,29 @@ bang :: String -> String
 bang = (<> "!")
 upcase = map toUpper
 billyTheKid = Outlaw 0 "bank robber"
+-- applicative law
+-- identity pure id <*> v = v
+-- composition pure(.) <*> u <*> v <*> w = u <*> (v <*> w)
+-- homomorphism pure f <*> pure x = pure (f x)
+-- interchange u <*> pure y = pure ($ y) <*> u
 
+instance Applicative Outlaw where
+  pure = Outlaw 0
+  (Outlaw n af) <*> (Outlaw n' av) = Outlaw (n + n') (af av)
+-- Monad laws
+-- left idendity return a >>= m = m a
+-- right identity m >>= return = m
+-- associativity (a >>= b) >>= c = a >>= (\x -> b x >>= c)
+
+instance Monad Outlaw where
+  return = Outlaw 0
+  (Outlaw n a) >>= f =
+    let (Outlaw n' v) = f a
+    in Outlaw (n + n') v
+stoleHorse :: String -> Outlaw String
+stoleHorse = return . (<> " and horse robber")
+testLeftIdentity = ((return "robbed a bank") >>= stoleHorse) == stoleHorse "robbed a bank"
+testRightIdentity = (billyTheKid >>= return) == billyTheKid
 
 main :: IO ()
 main = do
@@ -92,3 +115,5 @@ main = do
   print testIdentityLaw
   let testCompositionLaw = fmap (bang . upcase) billyTheKid == (fmap bang . fmap upcase) billyTheKid
   print testCompositionLaw
+  print testLeftIdentity
+  print testRightIdentity
