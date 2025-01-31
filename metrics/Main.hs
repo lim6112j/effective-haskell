@@ -1,4 +1,4 @@
-module Metrics where
+module Metrics(main) where
 import qualified Data.Map.Strict as Map
 import Data.IORef
 data AppMetrics = AppMetrics
@@ -20,6 +20,14 @@ incrementSuccess =
   where
     incrementSuccess m =
       m { successCount = 1 + successCount m }
+successfullyPrintHello :: IO ()
+successfullyPrintHello = do
+  print "Hello"
+  incrementSuccess
+printHelloAndMetrics :: IO ()
+printHelloAndMetrics = do
+  successfullyPrintHello
+  printMetrics
 main :: IO ()
 main = do
     putStrLn "Hello, World!"

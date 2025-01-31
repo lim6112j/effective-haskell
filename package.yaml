@@ -175,6 +175,8 @@ executables:
     - -threaded
     - -rtsopts
     - -with-rtsopts=-N
+    dependencies:
+    - containers
 tests:
   effective-haskell-test:
     main:                Spec.hs
