@@ -20,6 +20,8 @@ import System.Directory
   )
 import Control.Monad (unless)
 import Data.List (isSuffixOf)
+import qualified Data.Text as Text
+import qualified Data.Text.IO as TextIO
 data AppMetrics = AppMetrics
   { successCount :: Int
   , failureCount :: Int
@@ -133,6 +135,29 @@ traverseDirectory metrics rootPath action = do
           tickSuccess metrics
           pure result
   traverseSubDirectory (dropSuffix "/" rootPath)
+directorySummaryWithMetrics :: FilePath -> IO ()
+directorySummaryWithMetrics root = do
+  metrics <- newMetrics
+  histogramRef <- newIORef (Map.empty :: Map.Map Char Int)
+  traverseDirectory metrics root $ \file -> do
+    putStrLn $ file <> ":"
+    contents <- timeFunction metrics "TextIO.readFile" $
+      TextIO.readFile file
+    timeFunction metrics "wordcount" $
+      let wordCount = length $ Text.words contents
+      in putStrLn $ " word count: " <> show wordCount
+    timeFunction metrics "histogram" $ do
+      oldHistogram <- readIORef histogramRef
+      let
+        addChartToHistogram histogram letter =
+          Map.insertWith (+) letter 1 histogram
+        newHistogram = Text.foldl' addChartToHistogram oldHistogram contents
+      writeIORef histogramRef newHistogram
+    histogram <- readIORef histogramRef
+    putStrLn "Histogram Data:"
+    for_ (Map.toList histogram) $ \(letter, count) ->
+      putStrLn $ printf "  %c: %d" letter count
+    displayMetrics metrics
 main :: IO ()
 main = do
-    putStrLn "Hello, World!"
+  directorySummaryWithMetrics "./metrics"

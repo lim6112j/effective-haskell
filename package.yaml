@@ -179,6 +179,7 @@ executables:
     - containers
     - time
     - directory
+    - text
 tests:
   effective-haskell-test:
     main:                Spec.hs

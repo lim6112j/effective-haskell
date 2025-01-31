@@ -225,6 +225,7 @@ executable metrics
       base >=4.7 && <5
     , containers
     , directory
+    , text
     , time
   default-language: Haskell2010
 
