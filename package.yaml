@@ -177,6 +177,8 @@ executables:
     - -with-rtsopts=-N
     dependencies:
     - containers
+    - time
+    - directory
 tests:
   effective-haskell-test:
     main:                Spec.hs
