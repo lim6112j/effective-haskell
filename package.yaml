@@ -180,6 +180,17 @@ executables:
     - time
     - directory
     - text
+  chapter11:
+    main: Main.hs
+    source-dirs: chapter11
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - bytestring
+    - base64-bytestring
+    - text
 tests:
   effective-haskell-test:
     main:                Spec.hs

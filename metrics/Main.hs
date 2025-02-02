@@ -1,5 +1,6 @@
 {-# language RecordWildCards #-}
 {-# LANGUAGE TypeApplications #-}
+{-# LANGUAGE BangPatterns #-}
 module Metrics(main) where
 import qualified Data.Map.Strict as Map
 import Data.IORef
@@ -151,13 +152,20 @@ directorySummaryWithMetrics root = do
       let
         addChartToHistogram histogram letter =
           Map.insertWith (+) letter 1 histogram
-        newHistogram = Text.foldl' addChartToHistogram oldHistogram contents
+        !newHistogram = Text.foldl' addChartToHistogram oldHistogram contents
+--      newHistogram `seq` writeIORef histogramRef newHistogram
       writeIORef histogramRef newHistogram
     histogram <- readIORef histogramRef
     putStrLn "Histogram Data:"
     for_ (Map.toList histogram) $ \(letter, count) ->
       putStrLn $ printf "  %c: %d" letter count
     displayMetrics metrics
+-- bang pattern
+writeIORef' :: IORef a -> a -> IO ()
+writeIORef' ref !val = writeIORef ref val
+data FileStats = FileStats !(Map.Map Char Int)
+data FileStats' = FileStats'
+  { fileHistogram :: !(Map.Map Char Int) }
 main :: IO ()
 main = do
   directorySummaryWithMetrics "./metrics"
