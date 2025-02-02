@@ -1,4 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE FlexibleInstances #-}
 module Main(main) where
 import Data.ByteString (ByteString)
 import qualified Data.ByteString as BS
@@ -67,7 +68,10 @@ instance Encode Text where
   encode = encodeUtf8
 instance Decode Text where
         decode = Right . decodeUtf8
-        
+instance Encode String where
+  encode = BC.pack
+instance Decode String where
+        decode = Right . BC.unpack
 main :: IO ()
 main = do
   BS.putStr $ B64.encode "hello world"
